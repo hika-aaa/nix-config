@@ -56,6 +56,7 @@
     nixosConfigurations =
       {
       nixos = mkHost "nixos";
+      nixos-laptop = mkHost "nixos-laptop";
       };
 #     nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
 #       system = "x86_64-linux";

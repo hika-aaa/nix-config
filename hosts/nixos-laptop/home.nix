@@ -7,7 +7,7 @@ imports = [ ../../shared-home.nix ];
 systemd.user.services.rclone-gdrive-mount = {
   Unit = {
     Description = "Service that connects to Google Drive";
-    #After = [ "network-online.target" ];
+    After = [ "network-online.target" ];
     #Requires = [ "network-online.target" ];
   };
   Install = {
@@ -15,7 +15,7 @@ systemd.user.services.rclone-gdrive-mount = {
   };
 
   Service = let
-    gdriveDir = "$HOME/gdrive";
+    gdriveDir = "/home/hika/gdrive";
     in
     {
       Type = "simple";
