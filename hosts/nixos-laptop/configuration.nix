@@ -9,6 +9,12 @@
 
   networking.hostName = "nixos-laptop"; # Define your hostname.
 
+  # AMD GPU - no need for proprietary drivers, default should be fine
+  hardware.graphics = {
+  enable = true;
+  enable32Bit = true;
+  };
+
 
   # This option defines the first version of NixOS you have installed on this particular machine,
   # and is used to maintain compatibility with application data (e.g. databases) created on older NixOS versions.
