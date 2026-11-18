@@ -66,6 +66,7 @@
           co = "checkout";
           s = "status";
           sync = "!git pull --rebase && git push";
+          push = { autoSetupRemote = true; };
           };
         };
     };
