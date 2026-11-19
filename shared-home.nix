@@ -124,6 +124,10 @@ services.nextcloud-client = {
 
 programs.keepassxc.enable = true;
 
+programs.prismlauncher = {
+  enable = true;
+};
+
 # systemd.user.services.rclone-gdrive-mount = {
 #   Unit = {
 #     Description = "Service that connects to Google Drive";
