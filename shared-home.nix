@@ -4,6 +4,8 @@
   # Import files from the current configuration directory into the Nix store,
   # and create symbolic links pointing to those store files in the Home directory.
 
+  imports = [ inputs.umbriel.homeModules.default ];
+
   # home.file.".config/i3/wallpaper.jpg".source = ./wallpaper.jpg;
 
   # Import the scripts directory into the Nix store,
@@ -127,6 +129,38 @@ programs.keepassxc.enable = true;
 programs.prismlauncher = {
   enable = true;
 };
+
+
+# Noctalia
+programs.noctalia = {
+  enable = true;
+
+  #settings = { # This may also be a string or path to a .toml file.
+    #theme = {
+      #mode = "dark";
+      #source = "builtin";
+      #builtin = "Catppuccin";
+    #};
+  #};
+};
+
+
+# Umbriel
+
+programs.umbriel = {
+    enable = true;
+#     settings = {
+#       general.autostart = [ "noctalia" ];
+#       layout.gap = 5;
+#       input.keyboard.layout = "de";
+#       keybinds = {
+#         "Mod+T" = "spawn kitty";
+#         "Mod+Q" = "window-close";
+#         "Mod" = "spawn noctalia msg panel-toggle launcher";
+#       };
+#     };
+  };
+
 
 # systemd.user.services.rclone-gdrive-mount = {
 #   Unit = {
