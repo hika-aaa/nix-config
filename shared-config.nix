@@ -266,9 +266,11 @@ environment.systemPackages = let
     gnome-disk-utility
     cryptomator
     fzf
+    #nix stuff
     nix-search-tv
+    nixd
     xsettingsd
-    xorg.xrdb
+    xrdb
     libreoffice-qt
     ivpn-ui
     #### next generation of Rmarkdown for Python, Julia, R, and JS:
