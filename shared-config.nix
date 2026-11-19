@@ -11,7 +11,10 @@ in
   imports =
     [ # Include the results of the hardware scan.
       #./hardware-configuration.nix
+      #inputs.umbriel.nixosModules.default
     ];
+
+  #programs.umbriel.enable = true;
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -88,9 +91,10 @@ in
   # Enable the KDE Plasma Desktop Environment.
     services.displayManager = {
     sddm.enable = true;
-	autoLogin.enable = true;
+	autoLogin.enable = false;
 	autoLogin.user = "hika";
 	defaultSession = "plasma";
+	sessionPackages = [ pkgs.umbriel ] ;
 	};
 
   services.desktopManager.plasma6.enable = true;

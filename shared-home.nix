@@ -130,6 +130,10 @@ programs.prismlauncher = {
   enable = true;
 };
 
+programs.obs-studio = {
+  enable = true;
+};
+
 
 # Noctalia
 programs.noctalia = {
@@ -149,17 +153,252 @@ programs.noctalia = {
 
 programs.umbriel = {
     enable = true;
-#     settings = {
-#       general.autostart = [ "noctalia" ];
-#       layout.gap = 5;
-#       input.keyboard.layout = "de";
-#       keybinds = {
-#         "Mod+T" = "spawn kitty";
-#         "Mod+Q" = "window-close";
-#         "Mod" = "spawn noctalia msg panel-toggle launcher";
+    settings = {
+      general = {
+      # Umbriel's built-in systemd synchronization makes only one attempt. Retry
+      # it so a user-manager startup race cannot leave the session without Noctalia.
+      autostart = [
+        ''
+          until systemctl --user import-environment WAYLAND_DISPLAY DISPLAY \
+            XDG_CURRENT_DESKTOP XDG_SESSION_DESKTOP XDG_SESSION_TYPE UMBRIEL_SOCKET \
+            && systemctl --user start umbriel-session.target
+          do
+            sleep 1
+          done
+        ''
+      ];
+      mod_key = "Super";
+      xwayland = true;
+      show_cheatsheet = true;
+      focus_on_activate = false;
+    };
+
+    environment = {
+      NIXOS_OZONE_WL = "1";
+      XCURSOR_THEME = "Adwaita";
+      XCURSOR_SIZE = "24";
+      TERMINAL = "kitty";
+    };
+
+    output.DP-2 = {
+    mode = "2560x1440@164.83";
+    position = [0 0];
+    scale = 1;
+    focus_at_startup = true;
+    vrr = false;
+    hdr = false;
+    };
+
+    workspaces.back_and_forth = true;
+
+    appearance = {
+      prefer_no_csd = true;
+      border_width = 1;
+      outer_border_width = 0;
+      corner_radius = 8;
+      drag_opacity = 0.9;
+      blur.enabled = false;
+      shadow.enabled = false;
+    };
+
+    input = {
+      middle_click_paste = true;
+      keyboard.layout = "";
+      touchpad = {
+        tap = true;
+        natural_scroll = true;
+        disable_while_typing = true;
+      };
+      mouse.sensitivity = 0.0;
+      cursor = {
+        theme = "Adwaita";
+        size = 24;
+        follows_focus = false;
+        hide_when_typing = false;
+      };
+      focus.follows_mouse = true;
+    };
+
+    layout = {
+      mode = "dwindle";
+      gap = 4;
+      extent_presets = [
+        0.333
+        0.5
+        0.667
+        1.0
+      ];
+      dwindle.preserve_split = true;
+    };
+
+    keybinds = {
+      "Mod+T" = "spawn kitty";
+      "Mod+B" = "spawn floorp";
+      "Mod+E" = "spawn dolphin";
+      "Mod+R" = "spawn noctalia msg panel-toggle launcher";
+      "Mod+Space" = "spawn noctalia msg panel-toggle launcher";
+      "Mod+P" = "spawn noctalia msg panel-toggle launcher";
+      "Mod+V" = "spawn noctalia msg panel-toggle clipboard";
+      "Mod+Shift+V" = "spawn noctalia msg clipboard-clear";
+      "Mod+N" = "spawn noctalia msg notification-invoke-latest";
+      "Mod+Shift+N" = "spawn noctalia msg notification-dnd-toggle";
+      "Mod+Shift+R" = "config-reload";
+      "Mod+Shift+L" = "spawn noctalia msg session lock";
+      "Mod+Shift+H" = {
+        action = "cheatsheet-toggle";
+        repeat = false;
+      };
+      "Mod+Escape" = "spawn noctalia msg panel-toggle session";
+
+      "Mod+Q" = "window-close";
+      "Mod+Shift+F" = "spawn umbriel msg window-toggle-floating && umbriel msg window-center";
+      "Mod+Shift+G" = "window-toggle-fullscreen";
+      "Mod+Shift+M" = "window-toggle-maximize";
+      "Mod+Shift+P" = "window-toggle-pinned";
+
+      "Mod+Left" = "window-focus-left";
+      "Mod+Right" = "window-focus-right";
+      "Mod+Up" = "window-focus-up";
+      "Mod+Down" = "window-focus-down";
+      "Mod+H" = "window-focus-left";
+      "Mod+J" = "window-focus-down";
+      "Mod+K" = "window-focus-up";
+      "Mod+L" = "window-focus-right";
+
+      "Mod+Ctrl+H" = "window-modify-primary-extent:-0.1";
+      "Mod+Ctrl+J" = "window-modify-secondary-extent:0.1";
+      "Mod+Ctrl+K" = "window-modify-secondary-extent:-0.1";
+      "Mod+Ctrl+L" = "window-modify-primary-extent:0.1";
+      "Mod+Alt+H" = "column-move-left";
+      "Mod+Alt+J" = "window-move-down";
+      "Mod+Alt+K" = "window-move-up";
+      "Mod+Alt+L" = "column-move-right";
+
+      "Mod+S" = "scratchpad-toggle";
+      "Mod+Shift+S" = "window-move-to-scratchpad";
+      "Mod+WheelUp" = {
+        action = "workspace-previous";
+        cooldown_ms = 150;
+      };
+      "Mod+WheelDown" = {
+        action = "workspace-next";
+        cooldown_ms = 150;
+      };
+
+      "Print" = {
+        action = "spawn noctalia msg screenshot-region";
+        repeat = false;
+      };
+      "Shift+Print" = {
+        action = "spawn noctalia msg screenshot-fullscreen";
+        repeat = false;
+      };
+
+      "XF86AudioRaiseVolume" = {
+        action = "spawn noctalia msg volume-up";
+        allow_when_locked = true;
+      };
+      "XF86AudioLowerVolume" = {
+        action = "spawn noctalia msg volume-down";
+        allow_when_locked = true;
+      };
+      "XF86AudioMute" = {
+        action = "spawn noctalia msg volume-mute-toggle";
+        allow_when_locked = true;
+      };
+      "XF86AudioMicMute" = {
+        action = "spawn noctalia msg microphone-mute-toggle";
+        allow_when_locked = true;
+      };
+      "XF86MonBrightnessUp" = {
+        action = "spawn noctalia msg brightness-up 5";
+        allow_when_locked = true;
+      };
+      "XF86MonBrightnessDown" = {
+        action = "spawn noctalia msg brightness-down 5";
+        allow_when_locked = true;
+      };
+      "XF86AudioNext" = {
+        action = "spawn noctalia msg media next";
+        allow_when_locked = true;
+      };
+      "XF86AudioPause" = {
+        action = "spawn noctalia msg media toggle";
+        allow_when_locked = true;
+      };
+      "XF86AudioPlay" = {
+        action = "spawn noctalia msg media toggle";
+        allow_when_locked = true;
+      };
+      "XF86AudioPrev" = {
+        action = "spawn noctalia msg media previous";
+        allow_when_locked = true;
+      };
+    };
+
+    window_rule = [
+      {
+        match.is_focused = false;
+        opacity = 0.97;
+      }
+      {
+        match.app_id = "^dev[.]noctalia[.]Noctalia$";
+        default_floating = true;
+        default_floating_size_px = {
+          width = 1020;
+          height = 900;
+        };
+      }
+      {
+        match.app_id = "^dev[.]noctalia[.]UmbrielSharePicker$";
+        default_floating = true;
+        default_floating_size_px = {
+          width = 800;
+          height = 600;
+        };
+      }
+      {
+        match.app_id = "^(org[.]gnome[.]Calculator|org[.]gnome[.]Nautilus|org[.]pulseaudio[.]pavucontrol|pavucontrol|nm-connection-editor|org[.]gnome[.]Settings|xdg-desktop-portal.*)$";
+        default_floating = true;
+      }
+      {
+        match.title = "^(Picture-in-Picture|Picture in picture)$";
+        default_floating = true;
+        default_position = {
+          x = 20;
+          y = 20;
+          anchor = "bottom_right";
+        };
+      }
+    ];
+
+    animation = {
+      enabled = true;
+      duration_ms = 200;
+      curve = "easeout";
+      windows_in = {
+        enabled = true;
+        duration_ms = 150;
+        style = "popin";
+        scale = 0.9;
+      };
+      windows_out = {
+        enabled = true;
+        duration_ms = 150;
+        style = "fade";
+      };
+      windows_move.enabled = true;
+      workspaces.enabled = true;
+      overview.enabled = true;
+      scratchpad = {
+        enabled = true;
+        dim = 0.3;
+        blur = false;
+      };
+    };
 #       };
-#     };
-  };
+     };
+};
 
 
 # systemd.user.services.rclone-gdrive-mount = {
