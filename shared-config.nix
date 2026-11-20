@@ -252,6 +252,7 @@ environment.systemPackages = let
     myRPackages = with pkgs.rPackages; [
       reticulate # wanted by quarto to execute Python when using R.
       tidyverse
+      languageserver
       # any other RPackages - you can reuse this list for R and RStudio
     ];
     patchedQuarto = (pkgs.quarto.override {
@@ -284,6 +285,8 @@ environment.systemPackages = let
     #### R and RStudio:
     (rWrapper.override {packages = myRPackages; })
     (rstudioWrapper.override { packages = myRPackages; })
+    #### LaTeX
+    texliveFull
   ];
 
   services.ivpn.enable = true;
