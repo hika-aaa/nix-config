@@ -14,6 +14,8 @@ in
       #inputs.umbriel.nixosModules.default
     ];
 
+  nix.package = pkgs.lixPackageSets.stable.lix;
+
   #programs.umbriel.enable = true;
 
   # Use the systemd-boot EFI boot loader.
@@ -265,7 +267,7 @@ environment.systemPackages = let
       #'';
     #})
   in with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+    vim
     wget
     gparted
     gnome-disk-utility
@@ -274,6 +276,8 @@ environment.systemPackages = let
     #nix stuff
     nix-search-tv
     nixd
+    comma
+    #misc
     xsettingsd
     xrdb
     libreoffice-qt
