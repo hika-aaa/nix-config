@@ -289,6 +289,17 @@ environment.systemPackages = let
     texliveFull
   ];
 
+  fonts.packages = with pkgs; [
+  noto-fonts
+  noto-fonts-cjk-sans
+  noto-fonts-color-emoji
+  liberation_ttf
+  fira-code
+  fira-code-symbols
+  corefonts
+  vista-fonts
+];
+
   services.ivpn.enable = true;
 
   # Garbage collection (delete old generations)
