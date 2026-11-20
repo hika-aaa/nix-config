@@ -169,7 +169,6 @@ in
     packages = with pkgs; [
       kdePackages.kate
       floorp-bin
-      equibop
       obsidian
     #  thunderbird
     ];
