@@ -28,7 +28,14 @@
   #};
 
   # Packages that should be installed to the user profile.
-  home.packages = [
+
+  home.packages = let
+    patchedDiscord = (pkgs.discord.override {
+    withOpenASAR = true;
+    withVencord = true;
+    });
+  in
+  [
     # here is some command line tools I use frequently
     # feel free to add your own or remove some of them
     # misc
@@ -37,6 +44,7 @@
     pkgs.rclone
     pkgs.deezer-enhanced
     pkgs.kdePackages.kolourpaint
+    patchedDiscord
     #productivity
     pkgs.zotero
     pkgs.super-productivity
