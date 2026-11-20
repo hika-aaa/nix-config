@@ -276,7 +276,6 @@ environment.systemPackages = let
     #nix stuff
     nix-search-tv
     nixd
-    comma
     #misc
     xsettingsd
     xrdb

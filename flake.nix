@@ -32,9 +32,13 @@
       url = "github:noctalia-dev/umbriel";
       #inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+    url = "github:nix-community/nix-index-database";
+    inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, stylix, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, stylix, nix-index-database, ... }:
   let
       # Helper for automatic host discovery
       mkHost = hostname: nixpkgs.lib.nixosSystem {
@@ -45,6 +49,7 @@
           ./shared-config.nix
           stylix.nixosModules.stylix
           home-manager.nixosModules.home-manager
+          nix-index-database.nixosModules.default
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
@@ -52,6 +57,7 @@
             #home-manager.users.hika = ./home.nix;
             home-manager.users.hika = ./hosts/${hostname}/home.nix;
             #home-manager.users.hika = import [ ./shared-home.nix  ./hosts/${hostname}/home.nix ];
+            programs.nix-index-database.comma.enable = true;
           }
 #           home-manager.nixosModules.home-manager
 #           {
