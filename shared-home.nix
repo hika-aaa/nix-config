@@ -32,7 +32,11 @@
   home.packages = let
     patchedDiscord = (pkgs.discord.override {
     withOpenASAR = true;
+<<<<<<< HEAD
     withVencord = true;
+=======
+    withEquicord = true;
+>>>>>>> a5d8d74de90f3917919c5f664799ee2b55be3580
     });
   in
   [
